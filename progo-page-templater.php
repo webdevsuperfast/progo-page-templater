@@ -79,7 +79,7 @@ class ProGoPageTemplater {
 
                 // Add action to register template functions.php
                 add_action(
-                    'init', // <---- is this the right action? Appears to work...
+                    'wp', // <---- is this the right action? Appears to work...
                     array( $this, 'register_template_functions' )
                 );
 
