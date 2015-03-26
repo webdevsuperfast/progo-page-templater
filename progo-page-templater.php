@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Page Templater
+Plugin Name: ProGo Page Templater
 Plugin URI: http://www.ninthlink.com/
-Description: Page Templater plugin
+Description: Add custom page templates to any WordPress theme
 Version: 1.0.1
 Author: Ninthlink, Inc.
 Author URI: http://www.ninthlink.com/
@@ -15,29 +15,29 @@ class ProGoPageTemplater {
          */
 	protected $plugin_slug;
 
-        /**
-         * A reference to an instance of this class.
-         */
-        private static $instance;
+    /**
+     * A reference to an instance of this class.
+     */
+    private static $instance;
 
-        /**
-         * The array of templates that this plugin tracks.
-         */
-        protected $templates;
+    /**
+     * The array of templates that this plugin tracks.
+     */
+    protected $templates;
 
 
-        /**
-         * Returns an instance of this class. 
-         */
-        public static function get_instance() {
+    /**
+     * Returns an instance of this class. 
+     */
+    public static function get_instance() {
 
-                if( null == self::$instance ) {
-                        self::$instance = new ProGoPageTemplater();
-                } 
+            if( null == self::$instance ) {
+                    self::$instance = new ProGoPageTemplater();
+            } 
 
-                return self::$instance;
+            return self::$instance;
 
-        } 
+    } 
 
         /**
          * Initializes the plugin by setting filters and administration functions.
@@ -70,10 +70,11 @@ class ProGoPageTemplater {
 
                 $templates = scandir( plugin_dir_path(__FILE__). 'templates/' );
                 if ( is_array( $templates ) ) :
+                    print_r($templates);
                 	foreach ( $templates as $template ) {
-                		if ( $template == '.' || $template == '..' ) continue;
-                		$template_meta = get_file_data( plugin_dir_path(__FILE__). 'templates/' . $template . '/template.php', array('name' => 'Template Name', 'description' => 'Description') );
-                		$this->templates[ $template . '/template.php' ] = $template_meta['name'];
+                		if ( $template == '.' || $template == '..' || strpos( $template, '.' ) ) continue;
+                		$template_meta = get_file_data( plugin_dir_path(__FILE__). 'templates/' . $template . '/' . $template . '.php', array('name' => 'Template Name', 'description' => 'Description') );
+                		$this->templates[ $template . '/template.php' ] = ( isset( $template_meta['name'] ) ? $template_meta['name'] : 'ProGo Page Template' );
                 	}
             	endif;
 				
@@ -107,7 +108,7 @@ class ProGoPageTemplater {
 
                 // Add the modified cache to allow WordPress to pick it up for listing
                 // available templates
-                wp_cache_add( $cache_key, $templates, 'themes', 1800 );
+                wp_cache_add( $cache_key, $templates, 'themes', 0 );
 
                 return $atts;
 
@@ -121,7 +122,7 @@ class ProGoPageTemplater {
                 global $post;
 
                 if ( ! isset( $this->templates[ get_post_meta( $post->ID, '_wp_page_template', true ) ] ) ) {
-                        return $template;
+                    return $template;
                 } 
 
                 $file = plugin_dir_path(__FILE__). 'templates/' .get_post_meta( 
