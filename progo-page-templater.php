@@ -79,7 +79,7 @@ class ProGoPageTemplater {
 
                 // Add action to register template functions.php
                 add_action(
-                    'wp', // <---- is this the right action? Appears to work...
+                    'init', // <---- is this the right action? Appears to work...
                     array( $this, 'register_template_functions' )
                 );
 
@@ -92,9 +92,22 @@ class ProGoPageTemplater {
 
         public function register_template_functions() {
             if ( is_admin() ) {
-                $post_id = ( $_GET['post'] ? $_GET['post'] : ( $_POST['post'] ? $_POST['post'] : false ) );
-                if ( $post_id && array_key_exists( get_post_meta($post_id,'_wp_page_template',TRUE), $this->templates) ) {
-                    include_once ( plugin_dir_path(__FILE__). 'templates/page-fullwidth/functions.php' ); // <--- this is hard coded directory (bad)
+                //$post_id = ( $_GET['post'] ? $_GET['post'] : ( $_POST['post'] ? $_POST['post'] : false ) );
+                $post_id = false;
+                if ( isset( $_GET['post'] ) ) {
+                  $post_id = $_GET['post'];
+                } elseif( isset( $_POST['post'] ) ) {
+                  $post_id = $_POST['post'];
+                }
+                if ( $post_id !== false ) {
+                  $template = get_post_meta($post_id,'_wp_page_template',TRUE);
+                  if ( array_key_exists( $template, $this->templates ) ) {
+                    $template_dir = plugin_dir_path( $template );
+                    $template_function = plugin_dir_path(__FILE__). 'templates/'. $template_dir .'functions.php';
+                    if ( file_exists( $template_function ) ) {
+                      include_once ( $template_function ); // <--- this is hard coded directory (bad)
+                    }
+                  }
                 }
             }
         }
