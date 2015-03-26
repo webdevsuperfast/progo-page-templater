@@ -76,8 +76,28 @@ class ProGoPageTemplater {
                 		$this->templates[ $template . '/' . $template . '.php' ] = ( isset( $template_meta['name'] ) ? $template_meta['name'] : 'ProGo Page Template' );
                 	}
             	endif;
-				
-        } 
+
+                // Add action to register template functions.php
+                add_action(
+                    'init', // <---- is this the right action? Appears to work...
+                    array( $this, 'register_template_functions' )
+                );
+
+        }
+
+        /**
+         * Adds our templates functions.php file to register sidebars, etc.
+         *
+         */
+
+        public function register_template_functions() {
+            if ( is_admin() ) {
+                $post_id = ( $_GET['post'] ? $_GET['post'] : ( $_POST['post'] ? $_POST['post'] : false ) );
+                if ( $post_id && array_key_exists( get_post_meta($post_id,'_wp_page_template',TRUE), $this->templates) ) {
+                    include_once ( plugin_dir_path(__FILE__). 'templates/page-fullwidth/functions.php' ); // <--- this is hard coded directory (bad)
+                }
+            }
+        }
 
 
         /**
