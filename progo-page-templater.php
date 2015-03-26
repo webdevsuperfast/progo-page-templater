@@ -70,11 +70,10 @@ class ProGoPageTemplater {
 
                 $templates = scandir( plugin_dir_path(__FILE__). 'templates/' );
                 if ( is_array( $templates ) ) :
-                    print_r($templates);
                 	foreach ( $templates as $template ) {
                 		if ( $template == '.' || $template == '..' || strpos( $template, '.' ) ) continue;
                 		$template_meta = get_file_data( plugin_dir_path(__FILE__). 'templates/' . $template . '/' . $template . '.php', array('name' => 'Template Name', 'description' => 'Description') );
-                		$this->templates[ $template . '/template.php' ] = ( isset( $template_meta['name'] ) ? $template_meta['name'] : 'ProGo Page Template' );
+                		$this->templates[ $template . '/' . $template . '.php' ] = ( isset( $template_meta['name'] ) ? $template_meta['name'] : 'ProGo Page Template' );
                 	}
             	endif;
 				
@@ -108,7 +107,7 @@ class ProGoPageTemplater {
 
                 // Add the modified cache to allow WordPress to pick it up for listing
                 // available templates
-                wp_cache_add( $cache_key, $templates, 'themes', 0 );
+                wp_cache_add( $cache_key, $templates, 'themes', 1800 );
 
                 return $atts;
 

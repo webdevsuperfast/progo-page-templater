@@ -1,15 +1,10 @@
 <?php
 /*
-Template Name: ProGo - Full Width
-Description: Full-width page template with no styling
+Template Name: ProGo - Boxed 960px
+Description: Boxed page template with no styling
 */
 
-global $post;
-$template_file = get_post_meta($post->ID,'_wp_page_template',TRUE);
-
 $template = dirname(__FILE__); ?>
-
-<?php print($template_file); ?>
 
 <?php require_once($template.'/header.php'); ?>
 
