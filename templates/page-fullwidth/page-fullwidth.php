@@ -9,10 +9,7 @@ $template = dirname(__FILE__); ?>
 <?php require_once($template.'/header.php'); ?>
 
 	<!-- page container -->
-	<div id="progo-container">
-
-		<!-- content -->
-		<div id="container">
+	<div id="progo-fullwidth-container">
 
 			<?php
 			/* display Page content */
@@ -25,8 +22,6 @@ $template = dirname(__FILE__); ?>
 			endif;
 			?>
 
-		</div>
-
-	</div><!-- /.progo-container -->
+	</div><!-- /#progo-fullwidht-container -->
 		
 <?php require_once($template.'/footer.php'); ?>
