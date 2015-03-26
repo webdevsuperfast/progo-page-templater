@@ -9,7 +9,7 @@ $template = dirname(__FILE__); ?>
 <?php require_once($template.'/header.php'); ?>
 
 	<!-- page container -->
-	<div id="progo-fullwidth-container">
+	<div id="progo-fullwidth-wrapper">
 
 			<?php
 			/* display Page content */

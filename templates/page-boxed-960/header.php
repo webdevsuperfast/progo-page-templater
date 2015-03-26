@@ -15,6 +15,8 @@
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
+	<link rel="stylesheet" type="text/css" href="<?php echo plugin_dir_url( __FILE__ ); ?>css/style.css">
+
 	<?php if ( is_admin_bar_showing() ) { ?>
 	<style>
 	#page { top: 32px; position: relative; }

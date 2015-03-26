@@ -9,10 +9,10 @@ $template = dirname(__FILE__); ?>
 <?php require_once($template.'/header.php'); ?>
 
 	<!-- page container -->
-	<div id="progo-container">
+	<div id="progo-boxed-960-wrapper">
 
 		<!-- content -->
-		<div id="container">
+		<div id="progo-boxed-960-container">
 
 			<?php
 			/* display Page content */
