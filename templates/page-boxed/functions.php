@@ -8,38 +8,40 @@
 /**
  * Adds a box to the main column on the Post and Page edit screens.
  */
-function progo_page_fullwidth_add_meta_box() {
+function progo_page_boxed_add_meta_box() {
 
 	add_meta_box(
-		'progo_page_fullwidth_sectionid',
-		__( 'My Post Section Title', 'progo_page_fullwidth_textdomain' ),
-		'progo_page_fullwidth_meta_box_callback',
+		'progo_page_boxed_sectionid',
+		__( 'My Post Section Title', 'progo_page_boxed_textdomain' ),
+		'progo_page_boxed_meta_box_callback',
 		'page'
 		);
 
 }
-add_action( 'add_meta_boxes', 'progo_page_fullwidth_add_meta_box' );
+add_action( 'add_meta_boxes', 'progo_page_boxed_add_meta_box' );
 
 /**
  * Prints the box content.
  * 
  * @param WP_Post $post The object for the current post/page.
  */
-function progo_page_fullwidth_meta_box_callback( $post ) {
+function progo_page_boxed_meta_box_callback( $post ) {
 
 	// Add an nonce field so we can check for it later.
-	wp_nonce_field( 'progo_page_fullwidth_meta_box', 'progo_page_fullwidth_meta_box_nonce' );
+	wp_nonce_field( 'progo_page_boxed_meta_box', 'progo_page_boxed_meta_box_nonce' );
 
 	/*
 	 * Use get_post_meta() to retrieve an existing value
 	 * from the database and use the value for the form.
 	 */
-	$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
+	$value = get_post_meta( $post->ID, 'progo_page_boxed_my_meta_value_key', true );
+	$array = get_post_meta( $post->ID );
+	print_r($array);
 
-	echo '<label for="progo_page_fullwidth_new_field">';
-	_e( 'Description for this field', 'progo_page_fullwidth_textdomain' );
+	echo '<label for="progo_page_boxed_new_field">';
+	_e( 'Description for this field', 'progo_page_boxed_textdomain' );
 	echo '</label> ';
-	echo '<input type="text" id="progo_page_fullwidth_new_field" name="progo_page_fullwidth_new_field" value="' . esc_attr( $value ) . '" size="25" />';
+	echo '<input type="text" id="progo_page_boxed_new_field" name="progo_page_boxed_new_field" value="' . esc_attr( $value ) . '" size="25" />';
 }
 
 /**
@@ -47,7 +49,7 @@ function progo_page_fullwidth_meta_box_callback( $post ) {
  *
  * @param int $post_id The ID of the post being saved.
  */
-function progo_page_fullwidth_save_meta_box_data( $post_id ) {
+function progo_page_boxed_save_meta_box_data( $post_id ) {
 
 	/*
 	 * We need to verify this came from our screen and with proper authorization,
@@ -55,12 +57,12 @@ function progo_page_fullwidth_save_meta_box_data( $post_id ) {
 	 */
 
 	// Check if our nonce is set.
-	if ( ! isset( $_POST['progo_page_fullwidth_meta_box_nonce'] ) ) {
+	if ( ! isset( $_POST['progo_page_boxed_meta_box_nonce'] ) ) {
 		return;
 	}
 
 	// Verify that the nonce is valid.
-	if ( ! wp_verify_nonce( $_POST['progo_page_fullwidth_meta_box_nonce'], 'progo_page_fullwidth_meta_box' ) ) {
+	if ( ! wp_verify_nonce( $_POST['progo_page_boxed_meta_box_nonce'], 'progo_page_boxed_meta_box' ) ) {
 		return;
 	}
 
@@ -86,17 +88,17 @@ function progo_page_fullwidth_save_meta_box_data( $post_id ) {
 	/* OK, it's safe for us to save the data now. */
 	
 	// Make sure that it is set.
-	if ( ! isset( $_POST['progo_page_fullwidth_new_field'] ) ) {
+	if ( ! isset( $_POST['progo_page_boxed_new_field'] ) ) {
 		return;
 	}
 
 	// Sanitize user input.
-	$my_data = sanitize_text_field( $_POST['progo_page_fullwidth_new_field'] );
+	$my_data = sanitize_text_field( $_POST['progo_page_boxed_new_field'] );
 
 	// Update the meta field in the database.
-	update_post_meta( $post_id, '_my_meta_value_key', $my_data );
+	update_post_meta( $post_id, 'progo_page_boxed_my_meta_value_key', $my_data );
 }
-add_action( 'save_post', 'progo_page_fullwidth_save_meta_box_data' );
+add_action( 'save_post', 'progo_page_boxed_save_meta_box_data' );
 
 
 ?>

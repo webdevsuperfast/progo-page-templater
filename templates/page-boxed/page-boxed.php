@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: ProGo - Boxed 960px
+Template Name: ProGo - Boxed
 Description: Boxed page template with no styling
 */
 
@@ -9,10 +9,10 @@ $template = dirname(__FILE__); ?>
 <?php require_once($template.'/header.php'); ?>
 
 	<!-- page container -->
-	<div id="progo-boxed-960-wrapper">
+	<div id="progo-boxed-wrapper">
 
 		<!-- content -->
-		<div id="progo-boxed-960-container">
+		<div id="progo-boxed-container">
 
 			<?php
 			/* display Page content */
