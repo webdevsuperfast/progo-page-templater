@@ -1,4 +1,4 @@
-# progo-page-templater
+# ProGo Page Templater
 Add custom page templates to any WordPress theme
 
 ### Page Templates
